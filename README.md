@@ -1,2 +1,4 @@
 
-Just a simple Backbone.js app that lists GitHubs first 100 users
+Just a simple web app that lists GitHubs first 100 users by utilizing the GitHub API
+
+The same app is implemented using multiple javascript MV* frameworks
