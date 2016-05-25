@@ -22,23 +22,27 @@ var User = function (_React$Component) {
         value: function render() {
             return React.createElement(
                 "div",
-                { className: "center-block" },
+                { className: "col-md-1" },
                 React.createElement(
                     "div",
-                    null,
+                    { className: "center-block" },
                     React.createElement(
-                        "a",
-                        { href: this.props.data.html_url, target: "_blank" },
-                        React.createElement("img", { src: this.props.data.avatar_url, className: "img-circle" })
-                    )
-                ),
-                React.createElement(
-                    "div",
-                    null,
+                        "div",
+                        null,
+                        React.createElement(
+                            "a",
+                            { href: this.props.data.html_url, target: "_blank" },
+                            React.createElement("img", { src: this.props.data.avatar_url, className: "img-circle" })
+                        )
+                    ),
                     React.createElement(
-                        "a",
-                        { href: this.props.data.html_url, target: "_blank" },
-                        this.props.data.login
+                        "div",
+                        null,
+                        React.createElement(
+                            "a",
+                            { href: this.props.data.html_url, target: "_blank" },
+                            this.props.data.login
+                        )
                     )
                 )
             );
@@ -51,32 +55,19 @@ var User = function (_React$Component) {
 var UserList = function (_React$Component2) {
     _inherits(UserList, _React$Component2);
 
-    function UserList(props) {
+    function UserList() {
         _classCallCheck(this, UserList);
 
-        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(UserList).call(this, props));
-
-        _this2.state = { data: [] };
-        return _this2;
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(UserList).apply(this, arguments));
     }
 
     _createClass(UserList, [{
-        key: "componentDidMount",
-        value: function componentDidMount() {}
-    }, {
         key: "render",
         value: function render() {
-
-            var users = [{
-                login: "mojombo",
-                html_url: "https://github.com/mojombo",
-                avatar_url: "https://avatars.githubusercontent.com/u/1?v=3"
-            }];
-
             return React.createElement(
                 "div",
                 null,
-                users.map(function (user) {
+                this.props.users.map(function (user) {
                     return React.createElement(User, { key: user.login, data: user });
                 })
             );
@@ -100,7 +91,7 @@ var Loader = function (_React$Component3) {
         value: function render() {
             return React.createElement(
                 "div",
-                { className: "row" },
+                { className: this.props.isLoading ? "" : "hidden" + " row" },
                 React.createElement(
                     "div",
                     { className: "col-md-2 col-md-offset-5 well well-lg bg-info" },
@@ -117,13 +108,29 @@ var Loader = function (_React$Component3) {
 var App = function (_React$Component4) {
     _inherits(App, _React$Component4);
 
-    function App() {
+    function App(props) {
         _classCallCheck(this, App);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(App).apply(this, arguments));
+        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
+
+        _this4.state = { users: [], loaded: false };
+        return _this4;
     }
 
     _createClass(App, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            var _this5 = this;
+
+            $.ajax({
+                url: "https://api.github.com/users",
+                dataType: 'json',
+                cache: true
+            }).done(function (data) {
+                _this5.setState({ users: data, loaded: true });
+            }).fail(function (jqXHR, status, err) {});
+        }
+    }, {
         key: "render",
         value: function render() {
             return React.createElement(
@@ -138,8 +145,8 @@ var App = function (_React$Component4) {
                         "GitHub First 100"
                     )
                 ),
-                React.createElement(Loader, null),
-                React.createElement(UserList, null)
+                React.createElement(Loader, { isLoading: !this.state.loaded }),
+                React.createElement(UserList, { users: this.state.users })
             );
         }
     }]);

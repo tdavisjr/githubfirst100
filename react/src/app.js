@@ -1,15 +1,17 @@
 class User extends React.Component {
     render() {
         return (
-            <div className="center-block">
-                <div>
-                    <a href={this.props.data.html_url} target="_blank">
-                        <img src={this.props.data.avatar_url} className="img-circle"/>
-                    </a>
+            <div className="col-md-1">
+                <div className="center-block">
+                    <div>
+                        <a href={this.props.data.html_url} target="_blank">
+                            <img src={this.props.data.avatar_url} className="img-circle"/>
+                        </a>
+                    </div>
+                    <div>
+                        <a href={this.props.data.html_url} target="_blank">{this.props.data.login}</a>
+                    </div>        
                 </div>
-                <div>
-                    <a href={this.props.data.html_url} target="_blank">{this.props.data.login}</a>
-                </div>        
             </div>
         );
         
@@ -19,28 +21,10 @@ class User extends React.Component {
 
 
 class UserList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {data: []};
-    }
-    componentDidMount(){
-
-    }
     render() {
-        
-        const users = 
-        [
-            {
-                login: "mojombo", 
-                html_url: "https://github.com/mojombo", 
-                avatar_url:"https://avatars.githubusercontent.com/u/1?v=3"
-            }
-            
-        ];
-        
         return (
             <div>
-            {users.map(user => <User key={user.login} data={user} />)}
+            {this.props.users.map(user => <User key={user.login} data={user} />)}
             </div>
         );
         
@@ -52,7 +36,7 @@ class UserList extends React.Component {
 class Loader extends React.Component {
     render() {
         return (
-            <div className="row">
+            <div className={this.props.isLoading ? "" : "hidden" + " row"}>
                 <div className="col-md-2 col-md-offset-5 well well-lg bg-info">
                     <span className="glyphicon glyphicon-refresh"></span>
                     Loading...
@@ -65,14 +49,31 @@ class Loader extends React.Component {
 
 
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {users: [], loaded: false};
+    }
+    componentDidMount(){
+        $.ajax({
+            url: "https://api.github.com/users",
+            dataType: 'json',
+            cache: true
+        })
+        .done(data => { 
+            this.setState({users: data, loaded: true});
+        })
+        .fail((jqXHR, status, err) => {
+            
+        });
+    }    
     render() {
         return (
             <div>
                 <div className="page-header">
                     <h1>GitHub First 100</h1>
                 </div>   
-                <Loader />  
-                <UserList />
+                <Loader isLoading={ !this.state.loaded }/>  
+                <UserList users={this.state.users} />
             </div>     
         );
     }
