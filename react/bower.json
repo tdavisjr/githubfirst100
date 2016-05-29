@@ -17,6 +17,8 @@
   ],
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "react": "^15.1.0"
+    "react": "^15.1.0",
+    "fetch": "^1.0.0",
+    "es6-promise": "^3.2.2"    
   }
 }

@@ -118,17 +118,22 @@ var App = function (_React$Component4) {
     }
 
     _createClass(App, [{
-        key: "componentDidMount",
-        value: function componentDidMount() {
+        key: "componentWillMount",
+        value: function componentWillMount() {
+            this._fetchUsers();
+        }
+    }, {
+        key: "_fetchUsers",
+        value: function _fetchUsers() {
             var _this5 = this;
 
-            $.ajax({
-                url: "https://api.github.com/users",
-                dataType: 'json',
-                cache: true
-            }).done(function (data) {
+            window.fetch('https://api.github.com/users').then(function (response) {
+                return response.json();
+            }).then(function (data) {
                 _this5.setState({ users: data, loaded: true });
-            }).fail(function (jqXHR, status, err) {});
+            }).catch(function (ex) {
+                console.log('parsing failed', ex);
+            });
         }
     }, {
         key: "render",

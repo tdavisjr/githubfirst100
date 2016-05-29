@@ -53,19 +53,23 @@ class App extends React.Component {
         super(props);
         this.state = {users: [], loaded: false};
     }
-    componentDidMount(){
-        $.ajax({
-            url: "https://api.github.com/users",
-            dataType: 'json',
-            cache: true
-        })
-        .done(data => { 
-            this.setState({users: data, loaded: true});
-        })
-        .fail((jqXHR, status, err) => {
-            
-        });
-    }    
+    componentWillMount(){
+        this._fetchUsers();
+    }  
+    
+    _fetchUsers(){       
+        window.fetch('https://api.github.com/users')
+            .then(function(response) {
+                return response.json()
+            })
+            .then((data) => {
+                this.setState({users: data, loaded: true});
+            })
+            .catch(function(ex) {
+                console.log('parsing failed', ex)
+            });             
+    }
+      
     render() {
         return (
             <div>
