@@ -16,8 +16,6 @@
     "tests"
   ],
   "dependencies": {
-    "react": "^15.1.0",
-    "fetch": "^1.0.0",
-    "es6-promise": "^3.2.2"    
+    "angular": "^1.5.6"
   }
 }
