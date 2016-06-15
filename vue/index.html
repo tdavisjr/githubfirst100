@@ -22,22 +22,22 @@
         <users-list :users="users"></users>
     </div>
 
-    <script type="text/html" id="header">
+    <template id="header">
       <div class="page-header">
           <h1>GitHub First 100</h1>
       </div>
-    </script>
+    </template>
 
-    <script type="text/html" id="loader">
+    <template id="loader">
       <div class="row">
           <div class="col-md-2 col-md-offset-5 well well-lg bg-info">
               <span class="glyphicon glyphicon-refresh"></span>
               Loading...
           </div>
       </div>
-    </script>
+    </template>
 
-    <script type="text/html" id="user">
+    <template id="user">
        <div class="col-md-1" v-for="user in users">
          <div class="center-block">
              <div>
@@ -46,11 +46,11 @@
                  </a>
              </div>
              <div>
-                 <a "href='user.html_url' target="_blank">{{login}}</a>
+                 <a href='user.html_url' target="_blank">{{login}}</a>
              </div>
          </div>
        </div>
-    </script>
+    </template>
 
     <script src="./vendor/requirejs/require.js" data-main="app/main"></script>
 </body>
