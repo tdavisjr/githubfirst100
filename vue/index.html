@@ -11,7 +11,9 @@
 
 
     <style type="text/css">
-        .col-md-1 {padding: 30px;}
+        .col-md-1 {
+            padding: 30px;
+        }
     </style>
 </head>
 
@@ -53,6 +55,19 @@
     </template>
 
     <script src="./vendor/requirejs/require.js" data-main="app/main"></script>
+    <script>
+        require.config({
+            paths: {
+                fetch: '../vendor/fetch/fetch',
+                vue: '../vendor/vue/dist/vue.min',
+            },
+            shim: {
+                "fetch": {
+                    exports: 'fetch'
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
