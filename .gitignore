@@ -1,6 +1,8 @@
+*.map
+*.log
 .DS_Store
 .idea/
 .vscode/
 node_modules/
 jspm_packages/
-npm-debug.log
+typings/
