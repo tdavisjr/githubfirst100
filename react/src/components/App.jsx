@@ -12,8 +12,8 @@ function App() {
       const resp = await fetch("https://api.github.com/users")
       const data = await resp.json()
 
-      setUsers(data)
-      setIsLoading(false)
+      setUsers(()=> data)
+      setIsLoading(()=> false)
     }
 
     fetchData();
